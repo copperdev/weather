@@ -48,8 +48,8 @@ const WeeklyWeather = ({ city, geolocation }) => {
                                     <Humidity raining={raining[index]}>{item.humidity}%</Humidity>
                                 </WeatherWrapper>
                                 <TempWrapper>
-                                    <TempMax>{item.maxTemp}</TempMax>
-                                    <TempMin>{item.minTemp}</TempMin>
+                                    <TempMax>{item.maxTemp}°</TempMax>
+                                    <TempMin>{item.minTemp}°</TempMin>
                                 </TempWrapper>
                             </DayWrapper>
                         ))

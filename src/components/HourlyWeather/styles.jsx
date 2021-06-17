@@ -6,7 +6,10 @@ export const Wrapper = styled.div`
     margin: auto;
     padding: 10px 0;
     color: white;
+    margin-top: 20px;
     border-top: 2px solid #ffffff1a;
+    display: flex;
+    justify-content: space-around;
     
     @media ${device.tablet} { 
         width: 95%;
@@ -22,41 +25,27 @@ export const Wrapper = styled.div`
     }
 `
 
-export const DayWrapper = styled.div`
-    padding: 10px 20px;
+export const HourWrapper = styled.div`
+    padding: 10px 0px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    text-align: center;
     justify-content: space-between;
 `
 
-export const DayName = styled.p`
-    width: 20%;
-    font-size: 20px;
-`
-
-export const WeatherWrapper = styled.div`
-    display: flex;
-    align-items: center;
+export const Title = styled.p`
+    font-size: 18px;
+    color: #ffffffcf;
 `
 
 export const WeatherIcon = styled.img`
-    width: 30px;
+    margin-top: 10px;
+    width: 40px;
 `
 
-export const Humidity = styled.p`
-    color: #ffffffcf;
-    margin-left: 10px;
-    visibility: ${props => props.raining ? "visible" : "hidden"};
-`
-
-export const TempWrapper = styled.div`
-    display: flex;
+export const Temp = styled.p`
+    font-size: 20px;
+    margin-top: 10px;
     font-weight: bold;
-`
-
-export const TempMax = styled.p``
-
-export const TempMin = styled.p`
-    margin-left: 20px;
-    color: #ffffffcf;
+    color: #fff;
 `

@@ -16,7 +16,8 @@ export const getCurrentWeatherByLatLng = (lat, lng) => {
             feelsLike: Math.round(res.main.feels_like),
             humidity: `${Math.round(res.main.humidity)}%`,
             sunrise: res.sys.sunrise,
-            sunset: res.sys.sunset
+            sunset: res.sys.sunset,
+            currentDate: res.dt,
         }
     })
     .catch(err => {
@@ -40,7 +41,10 @@ export const getCurrentWeatherByCity = (city) => {
             feelsLike: Math.round(res.main.feels_like),
             humidity: Math.round(res.main.humidity),
             sunrise: res.sys.sunrise,
-            sunset: res.sys.sunset
+            sunset: res.sys.sunset,
+            currentDate: res.dt,
+            lng: res.coord.lon,
+            lat: res.coord.lat
         }
     }) 
     .catch(err => {
@@ -88,6 +92,27 @@ export const getWeeklyWeatherByCity = (city) => {
             })
         }
         return days
+    }) 
+    .catch(err => {
+        console.error(err)
+    })
+}
+
+export const getHourlyWeatherByLatLng = (lat, lng) => {
+    return fetch(`${process.env.REACT_APP_BASE_URL_API}onecall?lat=${lat}&lon=${lng}&units=metric&lang=fr&exclude=daily&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
+        "method": "GET"
+    })
+    .then(res => res.json())
+    .then(res => {
+        const hours = []
+        for (let i = 0; i < 5; i++) {
+            hours.push({
+                title: `${new Date(res.hourly[i].dt * 1000).getHours().toString()}h`,
+                weatherId: res.hourly[i].weather[0].id,
+                temp: Math.round(res.hourly[i].temp),
+            })
+        }
+        return hours
     }) 
     .catch(err => {
         console.error(err)

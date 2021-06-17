@@ -25,8 +25,7 @@ const CurrentWeather = ({ city, geolocation }) => {
 
     useEffect(() => {
         if (currentWeather !== null) {
-            const currentDate = Date.now() / 1000
-            const isNight = (currentDate < currentWeather.sunrise || currentDate > currentWeather.sunset)
+            const isNight = (currentWeather.currentDate < currentWeather.sunrise || currentWeather.currentDate > currentWeather.sunset)
             setTheme(weatherIconUtils(currentWeather.weatherId, isNight))
             setIsSunny((currentWeather.weatherId === 800
                 || currentWeather.weatherId === 511
