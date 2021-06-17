@@ -5,6 +5,8 @@ export const capitalize = (value) => {
     return value[0].toUpperCase() + value.slice(1)
 }
 
+export const hourFormat = (date) => new Date(date).toTimeString().substring(0, 5)
+
 export const DAYS_NAME = [
     "Dimanche",
     "Lundi",

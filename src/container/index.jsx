@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import CurrentWeather from "../components/CurrentWeather"
 import HourlyWeather from "../components/HourlyWeather"
 import WeeklyWeather from "../components/WeeklyWeather"
+import DetailsWeather from "../components/DetailsWeather"
 import "./index.css"
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
             <CurrentWeather city={city} geolocation={geolocation} />
             <HourlyWeather city={city} geolocation={geolocation} />
             <WeeklyWeather city={city} geolocation={geolocation} />
+            <DetailsWeather city={city} geolocation={geolocation} />
         </>
     )
 }
