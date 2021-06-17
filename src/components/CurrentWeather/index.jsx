@@ -3,28 +3,25 @@ import { useEffect, useState } from "react"
 import { getCurrentWeatherByCity, getCurrentWeatherByLatLng } from "../../api/requests"
 import { weatherIconUtils } from "../../utils/WeatherIconUtils.js"
 
-import { Wrapper, Time, City, Temp, WrapTemp, WrapperMinMaxTemp, Description, FeelsLike, WeatherIcon } from "./styled"
+import { Wrapper, Time, City, Temp, WrapTemp, WrapperMinMaxTemp, Description, FeelsLike, WeatherIcon } from "./styles"
 
-const CurrentWeather = () => {
+const CurrentWeather = ({ city, geolocation }) => {
     const [loading, setLoading] = useState(true)
-    const [city] = useState("Paris")
     const [currentWeather, setCurrentWeather] = useState(null)
     const [theme, setTheme] = useState(null)
     const [isSunny, setIsSunny] = useState(true)
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-                getCurrentWeatherByLatLng(position.coords.latitude, position.coords.longitude)
-                    .then(res => setCurrentWeather(res))
-                    .finally(() => setLoading(false))
-            },
-            (err) => {
-                getCurrentWeatherByCity(city)
-                    .then(res => setCurrentWeather(res))
-                    .finally(() => setLoading(false))
-            }
-        )
-    }, [city])
+        if (geolocation !== null) {
+            getCurrentWeatherByLatLng(geolocation.lat, geolocation.lng)
+                .then(res => setCurrentWeather(res))
+                .finally(() => setLoading(false))
+        } else {
+            getCurrentWeatherByCity(city)
+                .then(res => setCurrentWeather(res))
+                .finally(() => setLoading(false))
+        }
+    }, [city, geolocation])
 
     useEffect(() => {
         if (currentWeather !== null) {
@@ -41,6 +38,8 @@ const CurrentWeather = () => {
 
     useEffect(() => {
         if (theme !== null) {
+            const metaThemeColor = document.querySelector("meta[name=theme-color]")
+            metaThemeColor.setAttribute("content", theme.colors[0])
             document.body.style.backgroundImage = `linear-gradient(${theme.colors[0]}, ${theme.colors[1]})`
         }
     }, [theme])

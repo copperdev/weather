@@ -39,6 +39,7 @@ export const Wrapper = styled.div`
         .icon-content {
             position: relative;
             top: 0px;
+            left: 20px;
             padding: 60px;
         }
     }
@@ -95,7 +96,7 @@ export const Description = styled.p`
     margin-top: 40px;
     font-size: 28px;
     @media ${device.laptop} { 
-        margin-top: -70px;
+        margin-top: -50px;
     }
 `
 
