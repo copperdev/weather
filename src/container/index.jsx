@@ -1,7 +1,10 @@
+import CurrentWeather from "../components/CurrentWeather"
+import "./index.css"
+
 const App = () => (
-    <div>
-        
-    </div>
+    <>
+       <CurrentWeather />
+    </>
 )
 
 export default App
