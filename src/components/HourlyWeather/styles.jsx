@@ -4,9 +4,9 @@ import { device } from "../../utils/responsive"
 export const Wrapper = styled.div`
     width: 100%;
     margin: auto;
-    padding: 10px 0;
+    padding: 20px 0;
     color: white;
-    margin-top: 20px;
+    margin-top: 30px;
     border-top: 2px solid #ffffff1a;
     display: flex;
     justify-content: space-around;
@@ -26,7 +26,6 @@ export const Wrapper = styled.div`
 `
 
 export const HourWrapper = styled.div`
-    padding: 10px 0px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -34,17 +33,18 @@ export const HourWrapper = styled.div`
 `
 
 export const Title = styled.p`
-    font-size: 18px;
+    font-size: 16px;
     color: #ffffffcf;
 `
 
 export const WeatherIcon = styled.img`
+    margin: auto;
     margin-top: 10px;
-    width: 40px;
+    width: 30px;
 `
 
 export const Temp = styled.p`
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 10px;
     font-weight: bold;
     color: #fff;

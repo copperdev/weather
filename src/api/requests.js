@@ -107,7 +107,7 @@ export const getHourlyWeatherByLatLng = (lat, lng) => {
         const hours = []
         for (let i = 0; i < 5; i++) {
             hours.push({
-                title: `${new Date(res.hourly[i].dt * 1000).getHours().toString()}h`,
+                title: `${new Date(res.hourly[i].dt * 1000).getHours().toString()}:00`,
                 weatherId: res.hourly[i].weather[0].id,
                 temp: Math.round(res.hourly[i].temp),
             })

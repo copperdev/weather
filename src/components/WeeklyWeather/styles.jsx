@@ -30,8 +30,8 @@ export const DayWrapper = styled.div`
 `
 
 export const DayName = styled.p`
-    width: 20%;
-    font-size: 20px;
+    width: 15%;
+    font-size: 18px;
 `
 
 export const WeatherWrapper = styled.div`
@@ -57,6 +57,6 @@ export const TempWrapper = styled.div`
 export const TempMax = styled.p``
 
 export const TempMin = styled.p`
-    margin-left: 20px;
+    margin-left: 10px;
     color: #ffffffcf;
 `
