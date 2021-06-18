@@ -18,10 +18,10 @@ export const Wrapper = styled.div`
         width: 70%;
     }
     @media ${device.desktop} { 
-        width: 60%;
+        width: 50%;
     }
     @media ${device.desktopL} { 
-        width: 50%;
+        width: 40%;
     }
 `
 

@@ -4,24 +4,22 @@ import { device } from "../../utils/responsive"
 export const Wrapper = styled.div`
     width: 100%;
     margin: auto;
-    padding: 20px 0;
+    padding: 20px 20px;
     color: white;
     margin-top: 30px;
     border-top: 2px solid #ffffff1a;
+    overflow-x: scroll;
     display: flex;
-    justify-content: space-around;
+    white-space: nowrap;
     
     @media ${device.tablet} { 
-        width: 95%;
+        width: 90%;
     }
     @media ${device.laptop} { 
-        width: 70%;
+        width: 68%;
     }
     @media ${device.desktop} { 
-        width: 60%;
-    }
-    @media ${device.desktopL} { 
-        width: 50%;
+        width: 39%;
     }
 `
 
@@ -30,6 +28,7 @@ export const HourWrapper = styled.div`
     flex-direction: column;
     text-align: center;
     justify-content: space-between;
+    margin-right: 35px;
 `
 
 export const Title = styled.p`

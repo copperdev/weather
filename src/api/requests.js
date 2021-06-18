@@ -1,126 +1,71 @@
-import { capitalize, DAYS_NAME } from "../utils/Utils"
+/* eslint-disable array-callback-return */
+import { capitalize, DAYS_NAME, hourFormat } from "../utils/Utils"
 
-export const getCurrentWeatherByLatLng = (lat, lng) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL_API}weather?lat=${lat}&lon=${lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
-	    "method": "GET"
-    })
-    .then(res => res.json())
-    .then(res => {
-        return {
-            city: capitalize(res.name),
-            description: capitalize(res.weather[0].description),
-            weatherId: res.weather[0].id,
-            temp: Math.round(res.main.temp),
-            minTemp: Math.round(res.main.temp_min),
-            maxTemp: Math.round(res.main.temp_max),
-            feelsLike: Math.round(res.main.feels_like),
-            humidity: Math.round(res.main.humidity),
-            pressure: res.main.pressure,
-            visibility: res.visibility,
-            wind: Math.round(res.wind.speed),
-            sunrise: res.sys.sunrise,
-            sunset: res.sys.sunset,
-            currentDate: res.dt,
-        }
-    })
-    .catch(err => {
-        console.error(err)
-    })
-}
-
-export const getCurrentWeatherByCity = (city) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL_API}weather?q=${city}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
-	    "method": "GET"
-    })
-    .then(res => res.json())
-    .then(res => {
-        return {
-            city,
-            description: capitalize(res.weather[0].description),
-            weatherId: res.weather[0].id,
-            temp: Math.round(res.main.temp),
-            minTemp: Math.round(res.main.temp_min),
-            maxTemp: Math.round(res.main.temp_max),
-            feelsLike: Math.round(res.main.feels_like),
-            humidity: Math.round(res.main.humidity),
-            pressure: res.main.pressure,
-            wind: Math.round(res.wind.speed),
-            visibility: res.visibility,
-            sunrise: res.sys.sunrise,
-            sunset: res.sys.sunset,
-            currentDate: res.dt,
-            lng: res.coord.lon,
-            lat: res.coord.lat
-        }
-    }) 
-    .catch(err => {
-        console.error(err)
-    })
-}
-
-export const getWeeklyWeatherByLatLng = (lat, lng) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL_API}forecast/daily?lat=${lat}&lon=${lng}&units=metric&lang=fr&cnt=7&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
-        "method": "GET"
-    })
-    .then(res => res.json())
-    .then(res => {
-        const days = []
-        for (let i = 1; i < res.list.length; i++) {
-            days.push({
-                day: DAYS_NAME[new Date(res.list[i].dt * 1000).getDay()],
-                maxTemp: Math.round(res.list[i].temp.max),
-                minTemp: Math.round(res.list[i].temp.min),
-                weatherId: res.list[i].weather[0].id,
-                humidity: res.list[i].humidity
-            })
-        }
-        return days
-    }) 
-    .catch(err => {
-        console.error(err)
-    })
-}
-
-export const getWeeklyWeatherByCity = (city) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL_API}forecast/daily?q=${city}&units=metric&lang=fr&cnt=7&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
-        "method": "GET"
-    })
-    .then(res => res.json())
-    .then(res => {
-        const days = []
-        for (let i = 1; i < res.list.length; i++) {
-            days.push({
-                day: DAYS_NAME[new Date(res.list[i].dt * 1000).getDay()],
-                maxTemp: Math.round(res.list[i].temp.max),
-                minTemp: Math.round(res.list[i].temp.min),
-                weatherId: res.list[i].weather[0].id,
-                humidity: res.list[i].humidity
-            })
-        }
-        return days
-    }) 
-    .catch(err => {
-        console.error(err)
-    })
-}
-
-export const getHourlyWeatherByLatLng = (lat, lng) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL_API}onecall?lat=${lat}&lon=${lng}&units=metric&lang=fr&exclude=daily&appid=${process.env.REACT_APP_WEATHER_API_KEY}`, {
-        "method": "GET"
-    })
-    .then(res => res.json())
-    .then(res => {
-        const hours = []
-        for (let i = 0; i < 5; i++) {
+export const getWeathers = async (geolocation, city) => {
+    const currentWeather = await getCurrentWeather(geolocation, city)
+    const url = (geolocation === null)
+        ? `${process.env.REACT_APP_BASE_URL_API}onecall?lat=${currentWeather.lat}&lon=${currentWeather.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+        : `${process.env.REACT_APP_BASE_URL_API}onecall?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+    
+    try {
+        const request = await fetch(url, { "method": "GET" })
+        const response = await request.json()
+        const hours = [], days = []
+        Array.from(new Array(20)).forEach((_, index) => {
             hours.push({
-                title: `${new Date(res.hourly[i].dt * 1000).getHours().toString()}:00`,
-                weatherId: res.hourly[i].weather[0].id,
-                temp: Math.round(res.hourly[i].temp),
+                title: `${hourFormat(response.hourly[index].dt * 1000)}`,
+                weatherId: response.hourly[index].weather[0].id,
+                temp: Math.round(response.hourly[index].temp),
             })
+        })
+        response.daily.forEach(item => {
+            days.push({
+                day: DAYS_NAME[new Date(item.dt * 1000).getDay()],
+                maxTemp: Math.round(item.temp.max),
+                minTemp: Math.round(item.temp.min),
+                weatherId: item.weather[0].id,
+                humidity: item.humidity
+            })
+        })
+        return {
+            city: capitalize(currentWeather.city),
+            description: capitalize(response.current.weather[0].description),
+            weatherId: response.current.weather[0].id,
+            temp: Math.round(response.current.temp),
+            minTemp: Math.round(days[0].minTemp),
+            maxTemp: Math.round(days[0].maxTemp),
+            feelsLike: Math.round(response.current.feels_like),
+            humidity: Math.round(response.current.humidity),
+            pressure: response.current.pressure,
+            visibility: response.current.visibility,
+            wind: Math.round(response.current.wind_speed),
+            sunrise: response.current.sunrise,
+            sunset: response.current.sunset,
+            currentDate: response.current.dt,
+            lng: response.lon,
+            lat: response.lat,
+            hours,
+            days
         }
-        return hours
-    }) 
-    .catch(err => {
+    } catch (err) {
         console.error(err)
-    })
+    }
+}
+
+const getCurrentWeather = async (geolocation, city) => {
+    const url = (geolocation === null) 
+        ? `${process.env.REACT_APP_BASE_URL_API}weather?q=${city}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+        : `${process.env.REACT_APP_BASE_URL_API}weather?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+
+    try {
+        const request = await fetch(url, { "method": "GET" })
+        const response = await request.json()
+        return {
+            city: capitalize(response.name),
+            lng: response.coord.lon,
+            lat: response.coord.lat
+        }
+    } catch (err) {
+        console.error(err)
+    }
 }
