@@ -58,14 +58,17 @@ export const Time = styled.p`
 `
 
 export const City = styled.p`
+    display: flex;
+    align-items: center;
     font-size: 25px;
     width:fit-content;
-    padding: 5px 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #ffffff1d;
 
     &:hover {
-        border-radius: 5px;
-        background-color: #ffffff1d;
         cursor: pointer;
+        background-color: #ffffff47;
     }
 `
 
@@ -74,13 +77,13 @@ export const Temp = styled.h1`
     font-size: 90px;
     font-weight: bold;
 `
-
 export const WrapTemp = styled.div`
+    width: 100%;
     padding-left: 20px;
-    width: 120px;
 `
 export const WrapperMinMaxTemp = styled.div`
     display: flex;
+    width: 120px;
     justify-content: space-between;
     font-size: 20px;
     color: #ffffffcf;

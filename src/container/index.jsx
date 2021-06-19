@@ -16,6 +16,15 @@ const App = () => {
     const [currentWeather, setCurrentWeather] = useState(null)
 
     useEffect(() => {
+        if (showModal) {
+            window.scrollTo(0, 0);
+            document.body.style.overflowY = "hidden"
+        } else {
+            document.body.style.overflowY = "scroll"
+        }
+    }, [showModal])
+
+    useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => setGeolocation({ lat: position.coords.latitude, lng: position.coords.longitude }))
     }, [])
 

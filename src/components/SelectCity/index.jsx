@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { searchCity } from "../../api/requests.js"
 import { checkLength } from "../../utils/Utils.js"
-import { Wrapper, Content, Header, Title, SearchInput, WrapperCity, Name, Description } from "./styles.jsx"
+import { Wrapper, Content, Header, Title, SearchInput, Location, WrapperCity, Name, Description } from "./styles.jsx"
 
 const SelectCity = ({ setShowModal, setCity, setShowCity }) => {
     const [text, setText] = useState("")
@@ -33,7 +33,8 @@ const SelectCity = ({ setShowModal, setCity, setShowCity }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </Header>
-                <SearchInput resultLength={cities.length} placeholder="Paris" onChange={onHandlerChange} />
+                <SearchInput placeholder="Paris" onChange={onHandlerChange} />
+                <Location onClick={() => { setShowCity(false); setShowModal(false) }} resultLength={cities.length}>Choisir ma position actuelle</Location>
                 {
                     cities.map((city, index) => (
                         <WrapperCity onClick={() => { setCity(city.name); setShowCity(true); setShowModal(false) }} key={city.id}>

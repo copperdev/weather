@@ -3,7 +3,7 @@ import { device } from "../../utils/responsive"
 
 export const Wrapper = styled.div`
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     top: 0;
     backdrop-filter: blur(4px);
@@ -56,7 +56,7 @@ export const Title = styled.p`
 export const SearchInput = styled.input`
     width: calc(100% - 40px);
     margin-left: 10px;
-    margin-bottom: ${props => props.resultLength === 0 ? "20px" : "0px"};
+    margin-bottom: 2px;
     font-size: 18px;
     padding: 10px;
     border: 0px;
@@ -66,6 +66,18 @@ export const SearchInput = styled.input`
     &:focus{
         border-color: #42a5f5;
         outline: none;
+    }
+`
+
+export const Location = styled.p`
+    color: #42a5f5;
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 20px;
+    padding-bottom: 10px;
+
+    &:hover {
+        cursor: pointer;
     }
 `
 
@@ -85,7 +97,4 @@ export const Name = styled.p``
 
 export const Description = styled.p`
     color: gray;
-    // ${WrapperCity}:hover & {
-    //     color: white;
-    // }
 `
