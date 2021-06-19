@@ -4,7 +4,7 @@ import { weatherIconUtils } from "../../utils/WeatherIconUtils.js"
 
 import { Wrapper, Time, City, Temp, WrapTemp, WrapperMinMaxTemp, Description, FeelsLike, WeatherIcon } from "./styles"
 
-const CurrentWeather = ({ weather }) => {
+const CurrentWeather = ({ weather, setShowModal }) => {
     const [theme, setTheme] = useState(null)
     const [isSunny, setIsSunny] = useState(true)
 
@@ -29,11 +29,11 @@ const CurrentWeather = ({ weather }) => {
     }, [theme])
 
     return theme === null ? null : (
-        <Wrapper colors={theme.colors} isSun={isSunny} >
+        <Wrapper colors={theme.colors} isSun={isSunny}>
             <Time>Maintenant</Time>
             <div className="content">
                 <WrapTemp>
-                    <City>{weather.city}</City>
+                    <City onClick={() => setShowModal(true)}>{weather.city}</City>
                     <Temp>{weather.temp}°</Temp>
                     <WrapperMinMaxTemp>
                         <div className="min-max-temp">

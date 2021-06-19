@@ -59,6 +59,14 @@ export const Time = styled.p`
 
 export const City = styled.p`
     font-size: 25px;
+    width:fit-content;
+    padding: 5px 5px;
+
+    &:hover {
+        border-radius: 5px;
+        background-color: #ffffff1d;
+        cursor: pointer;
+    }
 `
 
 export const Temp = styled.h1`

@@ -1,11 +1,11 @@
 /* eslint-disable array-callback-return */
 import { capitalize, DAYS_NAME, hourFormat } from "../utils/Utils"
 
-export const getWeathers = async (geolocation, city) => {
-    const currentWeather = await getCurrentWeather(geolocation, city)
-    const url = (geolocation === null)
-        ? `${process.env.REACT_APP_BASE_URL_API}onecall?lat=${currentWeather.lat}&lon=${currentWeather.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
-        : `${process.env.REACT_APP_BASE_URL_API}onecall?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+export const getWeathers = async (geolocation, city, showCity) => {
+    const currentWeather = await getCurrentWeather(geolocation, city, showCity)
+    const url = (geolocation === null || showCity)
+        ? `${process.env.REACT_APP_BASE_URL_API_WEATHER}onecall?lat=${currentWeather.lat}&lon=${currentWeather.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+        : `${process.env.REACT_APP_BASE_URL_API_WEATHER}onecall?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
     
     try {
         const request = await fetch(url, { "method": "GET" })
@@ -52,10 +52,29 @@ export const getWeathers = async (geolocation, city) => {
     }
 }
 
-const getCurrentWeather = async (geolocation, city) => {
-    const url = (geolocation === null) 
-        ? `${process.env.REACT_APP_BASE_URL_API}weather?q=${city}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
-        : `${process.env.REACT_APP_BASE_URL_API}weather?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+export const searchCity = async (city) => {
+    const url = `${process.env.REACT_APP_BASE_URL_API_CITY}?q=${city}&type=municipality&limit=4`
+    try {
+        const request = await fetch(url, { "method": "GET" })
+        const response = await request.json()
+        const cities = []
+        response.features.forEach((item) => {
+            cities.push({
+                id: item.properties.id,
+                name: item.properties.city,
+                context: item.properties.context
+            })
+        })
+        return cities
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+const getCurrentWeather = async (geolocation, city, showCity) => {
+    const url = (geolocation === null || showCity)
+        ? `${process.env.REACT_APP_BASE_URL_API_WEATHER}weather?q=${city}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+        : `${process.env.REACT_APP_BASE_URL_API_WEATHER}weather?lat=${geolocation.lat}&lon=${geolocation.lng}&units=metric&lang=fr&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
 
     try {
         const request = await fetch(url, { "method": "GET" })
