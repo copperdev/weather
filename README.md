@@ -14,7 +14,7 @@ https://weather-copperdev.vercel.app
 - fetch
 - openweathermap.org (Weather API)
 - api-adresse.data.gouv.fr (City API)
-- styled-component
+- styled-components
 
 ## Installation
 Pré-requis : Avoir installé NodeJS + npm
