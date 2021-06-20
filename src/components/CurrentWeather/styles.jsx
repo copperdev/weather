@@ -78,7 +78,6 @@ export const Temp = styled.h1`
     font-weight: bold;
 `
 export const WrapTemp = styled.div`
-    width: 100%;
     padding-left: 20px;
 `
 export const WrapperMinMaxTemp = styled.div`
@@ -104,10 +103,10 @@ export const WeatherIcon = styled.img`
 
 export const Description = styled.p`
     padding-left: 20px;
-    margin-top: 40px;
+    margin-top: -90px;
     font-size: 28px;
     @media ${device.laptop} { 
-        margin-top: -50px;
+        margin-top: -80px;
     }
 `
 
